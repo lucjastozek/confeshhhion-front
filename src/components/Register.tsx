@@ -45,7 +45,9 @@ function Register(): JSX.Element {
                 "Password should contain a special character"
             ),
 
-        confession: z.string(),
+        confession: z
+            .string()
+            .min(10, "Confession should contain at least 10 characters"),
     });
 
     interface UserProps {
@@ -65,10 +67,26 @@ function Register(): JSX.Element {
                 password: password,
                 confession: confession,
             });
+
+            await axios.post("https://confeshhhion.onrender.com/register", {
+                username: username,
+                password: password,
+            });
+
+            toast({
+                position: "top",
+                title: "Account created!",
+                description: "Your account has been successfully created!",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+            });
+            onClose();
         } catch (error) {
             if (error instanceof z.ZodError) {
-                error.errors.map((err) => {
+                error.errors.forEach((err) => {
                     toast({
+                        position: "top",
                         title: "Error!",
                         description: err.message,
                         status: "error",
@@ -77,7 +95,15 @@ function Register(): JSX.Element {
                     });
                 });
             } else {
-                console.log(error);
+                toast({
+                    position: "top",
+                    title: "Error!",
+                    description:
+                        "User with that name already exists. Choose another username.",
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                });
             }
         }
     }
