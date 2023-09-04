@@ -19,8 +19,13 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import { z } from "zod";
+import { Link } from "react-router-dom";
 
-function Register(): JSX.Element {
+interface RegisterProps {
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function Register({ setIsLoggedIn }: RegisterProps): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
     const [show, setShow] = useState(false);
@@ -73,6 +78,10 @@ function Register(): JSX.Element {
                 password: password,
             });
 
+            await axios.post("https://confeshhhion.onrender.com/confessions", {
+                text: confession,
+            });
+
             toast({
                 position: "top",
                 title: "Account created!",
@@ -82,6 +91,8 @@ function Register(): JSX.Element {
                 isClosable: true,
             });
             onClose();
+            localStorage.setItem("isLoggedIn", "true");
+            setIsLoggedIn(true);
         } catch (error) {
             if (error instanceof z.ZodError) {
                 error.errors.forEach((err) => {
@@ -109,8 +120,11 @@ function Register(): JSX.Element {
     }
 
     return (
-        <>
-            <Button onClick={onOpen}>Open Modal</Button>
+        <div>
+            <Button onClick={onOpen}>Sign Up</Button>
+            <Button>
+                <Link to="/login">Sign In</Link>
+            </Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
@@ -175,13 +189,13 @@ function Register(): JSX.Element {
                             mr={3}
                             onClick={handleRegisterUser}
                         >
-                            Register
+                            <Link to="/confessions">Register</Link>
                         </Button>
                         <Button onClick={onClose}>Cancel</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </>
+        </div>
     );
 }
 
