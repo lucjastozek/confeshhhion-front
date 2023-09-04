@@ -14,15 +14,73 @@ import {
     ModalOverlay,
     Textarea,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
+import { z } from "zod";
 
 function Register(): JSX.Element {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const toast = useToast();
     const [show, setShow] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confession, setConfession] = useState("");
+
+    const UserData = z.object({
+        username: z
+            .string()
+            .min(5, "Username should have at least 5 characters")
+            .max(50, "Username should have maximum 50 characters"),
+        password: z
+            .string()
+            .min(8, "Password should have at least 8 characters")
+            .max(100, "Password should have maximum 100 characters")
+            .regex(/[a-z]/, "Password should contain a lowercase letter")
+            .regex(/[A-Z]/, "Password should contain an uppercase letter")
+            .regex(/[0-9]/, "Password should contain a number")
+            .regex(
+                /[*.!@#$%^&(){}[\]:";'<>,.?/~`_+\-=|\\]/,
+                "Password should contain a special character"
+            ),
+
+        confession: z.string(),
+    });
+
+    interface UserProps {
+        username: string;
+        password: string;
+        confession: string;
+    }
+
+    function validateData(data: UserProps) {
+        return UserData.parse(data);
+    }
+
+    async function handleRegisterUser() {
+        try {
+            validateData({
+                username: username,
+                password: password,
+                confession: confession,
+            });
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                error.errors.map((err) => {
+                    toast({
+                        title: "Error!",
+                        description: err.message,
+                        status: "error",
+                        duration: 9000,
+                        isClosable: true,
+                    });
+                });
+            } else {
+                console.log(error);
+            }
+        }
+    }
 
     return (
         <>
@@ -86,8 +144,12 @@ function Register(): JSX.Element {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3}>
-                            Save
+                        <Button
+                            colorScheme="blue"
+                            mr={3}
+                            onClick={handleRegisterUser}
+                        >
+                            Register
                         </Button>
                         <Button onClick={onClose}>Cancel</Button>
                     </ModalFooter>
