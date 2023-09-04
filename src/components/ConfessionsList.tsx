@@ -21,7 +21,7 @@ function ConfessionsList({ confessions }: ConfessionsListProps): JSX.Element {
 
     return (
         <div className="confessions">
-            <FormLabel>Add a confession</FormLabel>
+            <FormLabel fontSize={"1.5rem"}>Add a confession</FormLabel>
             <Textarea
                 pr="4.5rem"
                 value={confession}
@@ -29,10 +29,12 @@ function ConfessionsList({ confessions }: ConfessionsListProps): JSX.Element {
                     setConfession(e.target.value);
                 }}
                 placeholder="Enter a confession..."
-                size="sm"
+                size="md"
                 isRequired={true}
             />
-            <Button onClick={handleAddConfession}>Submit</Button>
+            <Button marginBottom={"4vh"} onClick={handleAddConfession}>
+                Submit
+            </Button>
             {confessions.map((c) => (
                 <Confession confession={c} key={c.id} />
             ))}

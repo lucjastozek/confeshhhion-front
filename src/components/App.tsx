@@ -28,43 +28,54 @@ function App() {
     }, [confessions]);
 
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        isLoggedIn ? (
-                            <h1>SIEMA</h1>
-                        ) : (
-                            <Register setIsLoggedIn={setIsLoggedIn} />
-                        )
-                    }
-                >
-                    <Route
-                        path="*"
-                        element={<h1>nie ma takiej strony byku</h1>}
-                    />
-                </Route>
-                <Route
-                    path="/register"
-                    element={<Register setIsLoggedIn={setIsLoggedIn} />}
-                />
-                <Route
-                    path="/login"
-                    element={<SignIn setIsLoggedIn={setIsLoggedIn} />}
-                />
-                <Route
-                    path="/confessions"
-                    element={
-                        isLoggedIn ? (
-                            <ConfessionsList confessions={confessions} />
-                        ) : (
-                            <h2>Log in to see confessions</h2>
-                        )
-                    }
-                />
-            </Routes>
-        </BrowserRouter>
+        <>
+            <header>
+                <h1>Confeshhhion 🤫</h1>
+            </header>
+            <main>
+                <BrowserRouter>
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={
+                                isLoggedIn ? (
+                                    <ConfessionsList
+                                        confessions={confessions}
+                                    />
+                                ) : (
+                                    <h2>Log in to see confessions</h2>
+                                )
+                            }
+                        >
+                            <Route
+                                path="*"
+                                element={<h1>nie ma takiej strony byku</h1>}
+                            />
+                        </Route>
+                        <Route
+                            path="/register"
+                            element={<Register setIsLoggedIn={setIsLoggedIn} />}
+                        />
+                        <Route
+                            path="/login"
+                            element={<SignIn setIsLoggedIn={setIsLoggedIn} />}
+                        />
+                        <Route
+                            path="/confessions"
+                            element={
+                                isLoggedIn ? (
+                                    <ConfessionsList
+                                        confessions={confessions}
+                                    />
+                                ) : (
+                                    <h2>Log in to see confessions</h2>
+                                )
+                            }
+                        />
+                    </Routes>
+                </BrowserRouter>
+            </main>
+        </>
     );
 }
 

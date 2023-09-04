@@ -7,9 +7,9 @@ function Confession({
     confession: ConfessionProps;
 }): JSX.Element {
     return (
-        <Card>
+        <Card marginBottom={"2vh"} colorScheme="teal">
             <CardBody>
-                <Text>{confession.text}</Text>
+                <Text fontSize={"1.5rem"}>{confession.text}</Text>
             </CardBody>
         </Card>
     );

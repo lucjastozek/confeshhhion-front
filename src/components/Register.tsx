@@ -1,19 +1,16 @@
 import {
     Button,
+    Card,
+    CardBody,
+    CardFooter,
+    CardHeader,
     FormControl,
     FormLabel,
+    Heading,
     Input,
     InputGroup,
     InputRightElement,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
     Textarea,
-    useDisclosure,
     useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -26,7 +23,6 @@ interface RegisterProps {
 }
 
 function Register({ setIsLoggedIn }: RegisterProps): JSX.Element {
-    const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
     const [show, setShow] = useState(false);
     const [username, setUsername] = useState("");
@@ -90,7 +86,6 @@ function Register({ setIsLoggedIn }: RegisterProps): JSX.Element {
                 duration: 9000,
                 isClosable: true,
             });
-            onClose();
             localStorage.setItem("isLoggedIn", "true");
             setIsLoggedIn(true);
         } catch (error) {
@@ -120,82 +115,71 @@ function Register({ setIsLoggedIn }: RegisterProps): JSX.Element {
     }
 
     return (
-        <div>
-            <Button onClick={onOpen}>Sign Up</Button>
-            <Button>
-                <Link to="/login">Sign In</Link>
-            </Button>
+        <Card width={"60vw"} margin={"auto"}>
+            <CardHeader>
+                <Heading>Create your account</Heading>
+            </CardHeader>
+            <CardBody pb={6}>
+                <FormControl>
+                    <FormLabel>Username</FormLabel>
+                    <Input
+                        isRequired={true}
+                        placeholder="Enter username..."
+                        value={username}
+                        onChange={(e) => {
+                            setUsername(e.target.value);
+                        }}
+                    />
+                </FormControl>
 
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Create your account</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody pb={6}>
-                        <FormControl>
-                            <FormLabel>Username</FormLabel>
-                            <Input
-                                isRequired={true}
-                                placeholder="Enter username..."
-                                value={username}
-                                onChange={(e) => {
-                                    setUsername(e.target.value);
-                                }}
-                            />
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Password</FormLabel>
-                            <InputGroup size="md">
-                                <Input
-                                    pr="4.5rem"
-                                    type={show ? "text" : "password"}
-                                    placeholder="Enter password..."
-                                    isRequired={true}
-                                    value={password}
-                                    onChange={(e) => {
-                                        setPassword(e.target.value);
-                                    }}
-                                />
-                                <InputRightElement width="4.5rem">
-                                    <Button
-                                        h="1.75rem"
-                                        size="sm"
-                                        onClick={() => setShow(!show)}
-                                    >
-                                        {show ? "Hide" : "Show"}
-                                    </Button>
-                                </InputRightElement>
-                            </InputGroup>
-                        </FormControl>
-                        <FormControl mt={4}>
-                            <FormLabel>Confession</FormLabel>
-                            <Textarea
-                                pr="4.5rem"
-                                value={confession}
-                                onChange={(e) => {
-                                    setConfession(e.target.value);
-                                }}
-                                placeholder="Enter a confession..."
+                <FormControl mt={4}>
+                    <FormLabel>Password</FormLabel>
+                    <InputGroup size="md">
+                        <Input
+                            pr="4.5rem"
+                            type={show ? "text" : "password"}
+                            placeholder="Enter password..."
+                            isRequired={true}
+                            value={password}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                            }}
+                        />
+                        <InputRightElement width="4.5rem">
+                            <Button
+                                h="1.75rem"
                                 size="sm"
-                                isRequired={true}
-                            />
-                        </FormControl>
-                    </ModalBody>
+                                onClick={() => setShow(!show)}
+                            >
+                                {show ? "Hide" : "Show"}
+                            </Button>
+                        </InputRightElement>
+                    </InputGroup>
+                </FormControl>
+                <FormControl mt={4}>
+                    <FormLabel>Confession</FormLabel>
+                    <Textarea
+                        pr="4.5rem"
+                        value={confession}
+                        onChange={(e) => {
+                            setConfession(e.target.value);
+                        }}
+                        placeholder="Enter a confession..."
+                        size="sm"
+                        isRequired={true}
+                    />
+                </FormControl>
+            </CardBody>
 
-                    <ModalFooter>
-                        <Button
-                            colorScheme="blue"
-                            mr={3}
-                            onClick={handleRegisterUser}
-                        >
-                            <Link to="/confessions">Register</Link>
-                        </Button>
-                        <Button onClick={onClose}>Cancel</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </div>
+            <CardFooter>
+                <Button colorScheme="blue" mr={3} onClick={handleRegisterUser}>
+                    <Link to="/confessions">Register</Link>
+                </Button>
+                <Button>
+                    <Link to="/login">Or click here to sign in</Link>
+                </Button>
+            </CardFooter>
+        </Card>
     );
 }
 

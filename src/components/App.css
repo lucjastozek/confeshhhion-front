@@ -1,3 +1,26 @@
-html {
-    background: #f8f8f8;
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    font-family: "Lato", sans-serif;
+}
+
+.confessions {
+    margin: auto;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2vh;
 }
