@@ -44,7 +44,7 @@ function App() {
                                         confessions={confessions}
                                     />
                                 ) : (
-                                    <SignIn setIsLoggedIn={setIsLoggedIn} />
+                                    <Register setIsLoggedIn={setIsLoggedIn} />
                                 )
                             }
                         >
@@ -74,7 +74,7 @@ function App() {
                                         confessions={confessions}
                                     />
                                 ) : (
-                                    <SignIn setIsLoggedIn={setIsLoggedIn} />
+                                    <Register setIsLoggedIn={setIsLoggedIn} />
                                 )
                             }
                         />
