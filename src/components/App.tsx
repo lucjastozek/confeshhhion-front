@@ -43,13 +43,18 @@ function App() {
                                         confessions={confessions}
                                     />
                                 ) : (
-                                    <h2>Log in to see confessions</h2>
+                                    <SignIn setIsLoggedIn={setIsLoggedIn} />
                                 )
                             }
                         >
                             <Route
                                 path="*"
-                                element={<h1>nie ma takiej strony byku</h1>}
+                                element={
+                                    <h1>
+                                        404 Page Not Found! Happy Birthday, or
+                                        whatever
+                                    </h1>
+                                }
                             />
                         </Route>
                         <Route
@@ -68,7 +73,7 @@ function App() {
                                         confessions={confessions}
                                     />
                                 ) : (
-                                    <h2>Log in to see confessions</h2>
+                                    <SignIn setIsLoggedIn={setIsLoggedIn} />
                                 )
                             }
                         />
