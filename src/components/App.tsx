@@ -8,6 +8,7 @@ import ConfessionsList from "./ConfessionsList";
 export interface ConfessionProps {
     id: number;
     text: string;
+    votes: number;
 }
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(

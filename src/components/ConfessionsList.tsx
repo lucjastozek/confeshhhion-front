@@ -35,9 +35,11 @@ function ConfessionsList({ confessions }: ConfessionsListProps): JSX.Element {
             <Button marginBottom={"4vh"} onClick={handleAddConfession}>
                 Submit
             </Button>
-            {confessions.map((c) => (
-                <Confession confession={c} key={c.id} />
-            ))}
+            {confessions
+                .sort((a, b) => b.votes - a.votes)
+                .map((c) => (
+                    <Confession confession={c} key={c.id} />
+                ))}
         </div>
     );
 }
