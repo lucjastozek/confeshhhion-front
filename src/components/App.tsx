@@ -3,8 +3,8 @@ import "./App.css";
 import Register from "./Register";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "./Login";
-import axios from "axios";
 import ConfessionsList from "./ConfessionsList";
+import fetchConfessions from "../utils/fetchConfessions";
 export interface ConfessionProps {
     id: number;
     text: string;
@@ -14,19 +14,11 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(
         Boolean(localStorage.getItem("isLoggedIn"))
     );
-    const [confessions, setConfesssions] = useState<ConfessionProps[]>([]);
+    const [confessions, setConfessions] = useState<ConfessionProps[]>([]);
 
     useEffect(() => {
-        async function fetchConfessions() {
-            const response = await axios.get(
-                "https://confeshhhion.onrender.com/confessions"
-            );
-
-            setConfesssions(response.data);
-        }
-
-        fetchConfessions();
-    }, [confessions]);
+        fetchConfessions(setConfessions);
+    }, []);
 
     return (
         <>
@@ -42,6 +34,7 @@ function App() {
                                 isLoggedIn ? (
                                     <ConfessionsList
                                         confessions={confessions}
+                                        setConfessions={setConfessions}
                                     />
                                 ) : (
                                     <Register setIsLoggedIn={setIsLoggedIn} />
@@ -72,6 +65,7 @@ function App() {
                                 isLoggedIn ? (
                                     <ConfessionsList
                                         confessions={confessions}
+                                        setConfessions={setConfessions}
                                     />
                                 ) : (
                                     <Register setIsLoggedIn={setIsLoggedIn} />

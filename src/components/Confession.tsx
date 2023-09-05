@@ -2,22 +2,27 @@ import { Card, CardBody, CardFooter, IconButton, Text } from "@chakra-ui/react";
 import { ArrowDownIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import { ConfessionProps } from "./App";
 import axios from "axios";
-
+import fetchConfessions from "../utils/fetchConfessions";
+interface ConfessionCardProps {
+    confession: ConfessionProps;
+    setConfessions: React.Dispatch<React.SetStateAction<ConfessionProps[]>>;
+}
 function Confession({
     confession,
-}: {
-    confession: ConfessionProps;
-}): JSX.Element {
+    setConfessions,
+}: ConfessionCardProps): JSX.Element {
     async function handleUpVote() {
         await axios.put(
             `https://confeshhhion.onrender.com/confessions/${confession.id}/upvote`
         );
+        fetchConfessions(setConfessions);
     }
 
     async function handleDownVote() {
         await axios.put(
             `https://confeshhhion.onrender.com/confessions/${confession.id}/downvote`
         );
+        fetchConfessions(setConfessions);
     }
 
     return (

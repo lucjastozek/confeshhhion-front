@@ -3,12 +3,17 @@ import { ConfessionProps } from "./App";
 import Confession from "./Confession";
 import { useState } from "react";
 import axios from "axios";
+import fetchConfessions from "../utils/fetchConfessions";
 
 interface ConfessionsListProps {
     confessions: ConfessionProps[];
+    setConfessions: React.Dispatch<React.SetStateAction<ConfessionProps[]>>;
 }
 
-function ConfessionsList({ confessions }: ConfessionsListProps): JSX.Element {
+function ConfessionsList({
+    confessions,
+    setConfessions,
+}: ConfessionsListProps): JSX.Element {
     const [confession, setConfession] = useState("");
 
     async function handleAddConfession() {
@@ -17,6 +22,7 @@ function ConfessionsList({ confessions }: ConfessionsListProps): JSX.Element {
         });
 
         setConfession("");
+        fetchConfessions(setConfessions);
     }
 
     return (
@@ -38,7 +44,11 @@ function ConfessionsList({ confessions }: ConfessionsListProps): JSX.Element {
             {confessions
                 .sort((a, b) => b.votes - a.votes)
                 .map((c) => (
-                    <Confession confession={c} key={c.id} />
+                    <Confession
+                        confession={c}
+                        key={c.id}
+                        setConfessions={setConfessions}
+                    />
                 ))}
         </div>
     );
