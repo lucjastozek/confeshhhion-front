@@ -1,9 +1,10 @@
-import { Button, FormLabel, Textarea } from "@chakra-ui/react";
+import { Button, FormLabel, Textarea, useToast } from "@chakra-ui/react";
 import { ConfessionProps } from "./App";
 import Confession from "./Confession";
 import { useState } from "react";
 import axios from "axios";
 import fetchConfessions from "../utils/fetchConfessions";
+import { z } from "zod";
 
 interface ConfessionsListProps {
     confessions: ConfessionProps[];
@@ -15,14 +16,34 @@ function ConfessionsList({
     setConfessions,
 }: ConfessionsListProps): JSX.Element {
     const [confession, setConfession] = useState("");
+    const toast = useToast();
 
     async function handleAddConfession() {
-        await axios.post("https://confeshhhion.onrender.com/confessions", {
-            text: confession,
-        });
+        try {
+            z.string()
+                .min(10, "Confession should contain at least 10 characters")
+                .parse(confession);
 
-        setConfession("");
-        fetchConfessions(setConfessions);
+            await axios.post("https://confeshhhion.onrender.com/confessions", {
+                text: confession,
+            });
+
+            setConfession("");
+            fetchConfessions(setConfessions);
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                error.errors.forEach((err) => {
+                    toast({
+                        position: "top",
+                        title: "Error!",
+                        description: err.message,
+                        status: "error",
+                        duration: 9000,
+                        isClosable: true,
+                    });
+                });
+            }
+        }
     }
 
     return (
